@@ -7,7 +7,7 @@ const DBClient = require("./DBClient");
 const filepath = path.join(__dirname, "../storage/csv", "sample.csv");
 const encoding = { encoding: "utf-8" };
 
-const fielReaderStream = fs.createReadStream(filepath, encoding);
+const fileReaderStream = fs.createReadStream(filepath, encoding);
 
 const parser = csv.parse(async (err, data) => {
   if (err) {
@@ -31,4 +31,4 @@ const parser = csv.parse(async (err, data) => {
   console.log(process.memoryUsage());
 });
 
-fielReaderStream.pipe(parser);
+fileReaderStream.pipe(parser);
