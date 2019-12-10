@@ -2,7 +2,7 @@ const fs = require("fs");
 const csv = require("csv");
 const path = require("path");
 const CsvVOClass = require("./CsvVOClass");
-const DBClient = require("./DBClient");
+const Sample = require("../src/Repository/Sample");
 
 const filepath = path.join(__dirname, "../storage/csv", "sample.csv");
 const encoding = { encoding: "utf-8" };
@@ -22,12 +22,17 @@ const parser = csv.parse(async (err, data) => {
     }
 
     const vo = new CsvVOClass(elem);
-    const obj = JSON.parse(JSON.stringify(vo));
-    results.push(obj);
+    results.push(vo.toJson());
   });
 
-  const dbClient = new DBClient();
-  await dbClient.sampleBulkInsert(results);
+  if (results.length <= 0) {
+    console.log("No loaded data");
+    process.exit();
+  }
+
+  const sample = new Sample();
+  sample.bulkInsert(results);
+
   console.log(process.memoryUsage());
 });
 

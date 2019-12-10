@@ -1,21 +1,36 @@
-const DB = require("../Infrastructure/DB");
+const BaseModel = require("./BaseModel");
 
-module.exports = class Sample {
-  collection_name = "sample";
+module.exports = class Sample extends BaseModel {
+  constructor() {
+    super("sample");
+  }
 
   async findAll() {
-    const DBClient = new DB();
-
     let res;
     try {
-      const collection = await DBClient.getCollection("sample");
+      const collection = await super.getCollection();
       res = await collection.find().toArray();
 
       return res;
     } catch (err) {
       console.error(err);
+      throw new Error(err);
     } finally {
-      DBClient.close();
+      super.close();
+    }
+  }
+
+  async bulkInsert(data) {
+    try {
+      const collection = await super.getCollection();
+      const res = await collection.insertMany(data);
+
+      return res;
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    } finally {
+      super.close();
     }
   }
 };

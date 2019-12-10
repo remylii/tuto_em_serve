@@ -47,4 +47,8 @@ module.exports = class CsvVOClass {
     this.common_inflow_name = args[19];
     this.outer_member_rb_id = args[20];
   }
+
+  toJson() {
+    return JSON.parse(JSON.stringify(this));
+  }
 };

@@ -8,17 +8,33 @@ module.exports = class DB {
   };
   db_name = process.env.DB_NAME || "test";
 
+  /**
+   * @var MongoClient
+   */
   _client;
 
-  _db;
+  constructor() {
+    this._client = null;
+  }
 
-  async db() {
-    this._client = await new MongoClient.connect(this.url, this.options);
+  /**
+   * Db instanceはキャッシュ化されて同一のinstanceが返る
+   * @see http://mongodb.github.io/node-mongodb-native/3.1/api/MongoClient.html#db
+   */
+  async getDB() {
+    if (!this._client) {
+      try {
+        this._client = await new MongoClient.connect(this.url, this.options);
+      } catch (err) {
+        console.error(err);
+        throw new Error(err);
+      }
+    }
     return this._client.db(this.db_name);
   }
 
   async getCollection(collection_name) {
-    const db = await this.db();
+    const db = await this.getDB();
     return db.collection(collection_name);
   }
 
