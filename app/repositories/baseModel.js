@@ -1,4 +1,4 @@
-const DB = require("../Infrastructure/DB");
+const DB = require("../infrastructures/DB");
 
 module.exports = class BaseModel {
   _DBClient;

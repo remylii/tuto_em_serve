@@ -2,7 +2,7 @@ const fs = require("fs");
 const csv = require("csv");
 const path = require("path");
 const CsvVOClass = require("./CsvVOClass");
-const Sample = require("../src/Repository/Sample");
+const Sample = require("../src/repositories/sample");
 
 const filepath = path.join(__dirname, "../storage/csv", "sample.csv");
 const encoding = { encoding: "utf-8" };

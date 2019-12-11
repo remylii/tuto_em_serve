@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const app = new express();
 const port = process.env.PORT || 3000;
 
-const Sample = require("./Repository/Sample");
+const Sample = require("./repositories/sample");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
